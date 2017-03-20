@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="changeme" default="all" basedir=".">
+
+    <property name="findbugs.home" value="${basedir}/../../libs/findbugs-3.0.1" />
+
+    <taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask">
+        <classpath>
+            <pathelement location="${findbugs.home}/lib/findbugs-ant.jar" />
+        </classpath>
+    </taskdef>
+
+    <target name="findbugs" depends="jar">
+        <echo message="${findbugs.home}" />
+
+        <property name="outputFolder"  value="${basedir}/../../output" />
+        <mkdir dir="${outputFolder}"  />
+
+        <findbugs home="${findbugs.home}"
+                  output="xml"
+                  outputFile="${outputFolder}/${code.name.base}_findbugs.xml" >
+            <sourcePath path="${basedir}/src/java" />
+            <auxClasspath path="${module.classpath}" />
+            <class location="${suite.dir}/build/cluster/modules/${module.jar.basename}" />
+        </findbugs>
+    </target>
+
+</project>
