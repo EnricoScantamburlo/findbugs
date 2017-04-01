@@ -6,7 +6,7 @@
     <description>Builds the module suite suite.</description>
     <import file="nbproject/build-impl.xml"/>
 
-    <property name="findbugs.home" value="${basedir}/../libs/findbugs-3.0.1" />
+    <property name="findbugs.home" value="${basedir}/../libs/spotbugs" />
 
     <path id="findbugs.classpath">
         <fileset dir="${findbugs.home}/lib">

@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="changeme" default="all" basedir=".">
 
-    <property name="findbugs.home" value="${basedir}/../../libs/findbugs-3.0.1" />
+    <property name="findbugs.home" value="${basedir}/../../libs/spotbugs" />
+
+    <path id="findbugs.classpath">
+        <fileset dir="${findbugs.home}/lib">
+            <include name="**/*.jar" />
+        </fileset>
+    </path>
 
     <taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask">
-        <classpath>
-            <pathelement location="${findbugs.home}/lib/findbugs-ant.jar" />
-        </classpath>
+        <classpath refid="findbugs.classpath" />
     </taskdef>
 
     <target name="findbugs" depends="jar">
@@ -17,7 +21,8 @@
 
         <findbugs home="${findbugs.home}"
                   output="xml"
-                  outputFile="${outputFolder}/${code.name.base}_findbugs.xml" >
+                  outputFile="${outputFolder}/${code.name.base}_findbugs.xml"
+        >
             <sourcePath path="${basedir}/src/java" />
             <auxClasspath path="${module.classpath}" />
             <class location="${suite.dir}/build/cluster/modules/${module.jar.basename}" />
