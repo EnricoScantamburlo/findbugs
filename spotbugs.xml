@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="changeme" default="all" basedir=".">
+
+    <!-- where SpotBugs is located -->
+    <property name="spotbugs.home" value="${basedir}/../../libs/spotbugs" />
+
+    <path id="spotbugs.classpath">
+        <fileset dir="${spotbugs.home}/lib">
+            <include name="**/*.jar" />
+        </fileset>
+    </path>
+
+    <taskdef name="spotbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask">
+        <classpath refid="spotbugs.classpath" />
+    </taskdef>
+
+    <target name="spotbugs" depends="jar">
+        <echo message="${spotbugs.home}" />
+
+        <property name="output.folder"  value="${basedir}/../../output" />
+
+        <!-- I launch SpotBugs -->
+        <spotbugs home="${spotbugs.home}"
+                  output="xml"
+                  outputFile="${output.folder}/${code.name.base}_spotbugs.xml"
+        >
+            <sourcePath path="${basedir}/src/java" />
+            <auxClasspath path="${module.classpath}" />
+            <class location="${suite.dir}/build/cluster/modules/${module.jar.basename}" />
+        </spotbugs>
+    </target>
+
+</project>

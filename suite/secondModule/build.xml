@@ -5,9 +5,9 @@
 <project name="it.enricoscantamburlo.secondmodule" default="netbeans" basedir=".">
     <description>Builds, tests, and runs the project it.enricoscantamburlo.secondmodule.</description>
     <import file="nbproject/build-impl.xml"/>
-    <import file="${basedir}/../../findbugs.xml" />
+    <import file="${basedir}/../../spotbugs.xml" />
 
-    <target name="run-findbugs" depends="findbugs" >
+    <target name="run-spotbugs" depends="spotbugs" >
         <!-- Just for Tests -->
     </target>
 </project>

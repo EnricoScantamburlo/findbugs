@@ -2,42 +2,50 @@
 <!-- You may freely edit this file. See harness/README in the NetBeans platform -->
 <!-- for some information on what you could do (e.g. targets to override). -->
 <!-- If you delete this file and reopen the project it will be recreated. -->
-<project name="suite_findbugs" basedir=".">
+<project name="suite_spotbugs" basedir=".">
     <description>Builds the module suite suite.</description>
     <import file="nbproject/build-impl.xml"/>
 
-    <property name="findbugs.home" value="${basedir}/../libs/spotbugs" />
+    <property name="spotbugs.home" value="${basedir}/../libs/spotbugs" />
 
-    <path id="findbugs.classpath">
-        <fileset dir="${findbugs.home}/lib">
+    <path id="spotbugs.classpath">
+        <fileset dir="${spotbugs.home}/lib">
             <include name="**/*.jar" />
         </fileset>
     </path>
 
     <taskdef name="unionBugs" classname="edu.umd.cs.findbugs.anttask.UnionBugs">
-        <classpath refid="findbugs.classpath" />
+        <classpath refid="spotbugs.classpath" />
     </taskdef>
 
     <taskdef name="convertXmlToText" classname="edu.umd.cs.findbugs.anttask.ConvertXmlToTextTask">
-        <classpath refid="findbugs.classpath" />
+        <classpath refid="spotbugs.classpath" />
     </taskdef>
 
 
-    <target name="findbugs" depends="-init">
-        <subant buildpath="${modules.sorted}" target="findbugs" inheritall="false" inheritrefs="fakse" failonerror="false" />
-
+    <target name="spotbugs" depends="-init">
+        <!-- I define some variable -->
         <property name="output.folder" value="${basedir}/../output" />
-        <property name="xml.output" value="${output.folder}/findbugs.xml" />
-        <property name="html.output" value="${output.folder}/findbugs.html" />
+        <property name="xml.output" value="${output.folder}/spotbugs.xml" />
+        <property name="html.output" value="${output.folder}/spotbugs.html" />
+
+        <!-- I remove the previous files-->
+        <delete failonerror="false">
+            <fileset dir="${output.folder}" includes="**/*"/>
+        </delete>
+
+        <mkdir dir="${output.folder}"  />
+
+        <subant buildpath="${modules.sorted}" target="spotbugs" inheritall="false" inheritrefs="fakse" failonerror="false" />
 
         <unionBugs to="${xml.output}" >
             <fileset dir="${output.folder}">
-                <include name="**/*_findbugs.xml" />
+                <include name="**/*_spotbugs.xml" />
             </fileset>
         </unionBugs>
 
         <convertXmlToText
-            classpathref="findbugs.classpath"
+            classpathref="spotbugs.classpath"
             input="${xml.output}"
             outputfile="${html.output}"
             format="html:fancy-hist.xsl"
